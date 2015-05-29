@@ -20,7 +20,7 @@ toDigitsRev = reverse . toDigits
 doubleEveryOther :: [Integer] -> [Integer]
 doubleEveryOther [] = []
 doubleEveryOther [x] = [x]
-doubleEveryOther (x:x':xs) = [x, x' + x'] ++ doubleSecond xs
+doubleEveryOther (x:x':xs) = [x, x' + x'] ++ doubleEveryOther xs
 
 
 -- ===================================
