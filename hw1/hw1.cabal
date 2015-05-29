@@ -1,0 +1,25 @@
+name:           hw1
+version:        0.1
+cabal-version:  >=1.2
+build-type:     Simple
+author:         adam
+
+executable hw1
+  hs-source-dirs:  src
+  main-is:         Main.hs
+  build-depends:   base >= 4
+  ghc-options:     -Wall
+  other-modules:   
+                   ValidatingCreditCardNumbers,
+                   TestValidatingCreditCardNumbers
+
+test-suite TestValidatingCreditCardNumbers
+  type:            exitcode-stdio-1.0
+  main-is:         TestValidatingCreditCardNumbers.hs
+  ghc-options:     -Wall -rtsopts
+  build-depends:   base >= 4, HTF > 0.9
+  other-modules:   
+                  ValidatingCreditCardNumbers,
+                  ValidatingCreditCardNumbersTest
+  hs-source-dirs:  src
+
