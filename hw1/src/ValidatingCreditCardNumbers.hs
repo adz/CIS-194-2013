@@ -7,7 +7,7 @@ module ValidatingCreditCardNumbers where
 toDigits :: Integer -> [Integer]
 toDigits 0 = []
 toDigits x
-  | x >= 0 = (toDigits (x `div` 10)) ++ [x `mod` 10]
+  | x >= 0 = toDigits (x `div` 10) ++ [x `mod` 10]
   | x < 0 = error "No negatives"
 
 toDigitsRev :: Integer -> [Integer]
@@ -19,7 +19,7 @@ toDigitsRev = reverse . toDigits
 
 doubleEveryOther :: [Integer] -> [Integer]
 doubleEveryOther [] = []
-doubleEveryOther (x:[]) = [x]
+doubleEveryOther [x] = [x]
 doubleEveryOther (x:x':xs) = [x, x' + x'] ++ doubleSecond xs
 
 
@@ -28,7 +28,7 @@ doubleEveryOther (x:x':xs) = [x, x' + x'] ++ doubleSecond xs
 -- ===================================
 
 sumDigits :: [Integer] -> Integer
-sumDigits xs = foldr (+) 0 $ concat (map toDigits xs)
+sumDigits xs = sum $ concatMap toDigits xs
 
 
 -- ===================================
