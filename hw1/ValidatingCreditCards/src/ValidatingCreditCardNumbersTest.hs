@@ -4,12 +4,12 @@ module ValidatingCreditCardNumbersTest where
 import ValidatingCreditCardNumbers
 import Test.Framework
 
-testToDigits :: IO ()
-testToDigits = do
+test_ToDigits :: IO ()
+test_ToDigits = do
   assertEqual ([1,0] :: [Integer]) (toDigits 10)
   assertEqual ([] :: [Integer]) (toDigits 0)
 
-testIsValid :: IO ()
-testIsValid = do
+test_IsValid :: IO ()
+test_IsValid = do
   assertBool $ validate 4012888888881881
   assertBool $ not $ validate 4012888888881882
