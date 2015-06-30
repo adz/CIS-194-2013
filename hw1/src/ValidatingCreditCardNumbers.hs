@@ -5,10 +5,11 @@ module ValidatingCreditCardNumbers where
 -- ===================================
 
 toDigits :: Integer -> [Integer]
-toDigits 0 = []
-toDigits x
-  | x >= 0 = toDigits (x `div` 10) ++ [x `mod` 10]
-  | x < 0 = error "No negatives"
+toDigits x = digits
+  where digits = case x `compare` 0 of
+               EQ -> []
+               GT -> toDigits (x `div` 10) ++ [x `mod` 10]
+               LT -> error "No Negatives"
 
 toDigitsRev :: Integer -> [Integer]
 toDigitsRev = reverse . toDigits
