@@ -18,3 +18,9 @@ test_MovesFor15Disks :: IO ()
 test_MovesFor15Disks = do
   assertEqual 32767 movesFor15Disks
   where movesFor15Disks = length $ hanoi 15 "a" "b" "c"
+
+test_Hanoi4WithTwoDisks :: IO ()
+test_Hanoi4WithTwoDisks = do
+  assertEqual 3 movesFor3Disks
+  where movesFor3Disks = length $ hanoi4 2 "a" "b" "c" "d"
+
