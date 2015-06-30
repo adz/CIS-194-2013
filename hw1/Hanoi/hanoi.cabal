@@ -1,0 +1,25 @@
+name:           Hanoi
+version:        0.1
+cabal-version:  >=1.2
+build-type:     Simple
+author:         adam
+
+executable Hanoi
+  hs-source-dirs:  src
+  main-is:         Main.hs
+  build-depends:   base >= 4
+  ghc-options:     -Wall
+  other-modules:   
+                   Hanoi,
+                   TestHanoi
+
+test-suite TestHanoi
+  type:            exitcode-stdio-1.0
+  main-is:         TestHanoi.hs
+  ghc-options:     -Wall -rtsopts
+  build-depends:   base >= 4, HTF > 0.9
+  other-modules:   
+                  Hanoi,
+                  HanoiTest
+  hs-source-dirs:  src
+
