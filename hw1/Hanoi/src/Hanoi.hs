@@ -15,11 +15,19 @@ hanoi numberOfDisks pegA pegB pegC =
     moveTopFromAToB = [(pegA, pegB)]
     moveAllButOneFromCtoBUsingA = hanoi (numberOfDisks - 1) pegC pegB pegA
 
-hanoi4 :: Integer -> Peg -> Peg -> Peg -> t -> [Move]
+hanoi4 :: Integer -> Peg -> Peg -> Peg -> Peg -> [Move]
 hanoi4 0 _ _ _ _ = []
 hanoi4 numberOfDisks pegA pegB pegC pegD =
-  moveAllButOneFromAtoCUsingB ++ moveTopFromAToB ++ moveAllButOneFromCtoBUsingA
+  moveTopHalfToC ++ moveBottomHalfToD ++
+    moveTopFromAToB ++
+      moveBottomHalfToB ++ moveTopHalfToB
   where
-    moveAllButOneFromAtoCUsingB = hanoi (numberOfDisks - 1) pegA pegC pegB
+    moveTopHalfToC = hanoi4 topHalf pegA pegC pegB pegD
+    moveBottomHalfToD = hanoi4 bottomHalf pegA pegD pegB pegC
     moveTopFromAToB = [(pegA, pegB)]
-    moveAllButOneFromCtoBUsingA = hanoi (numberOfDisks - 1) pegC pegB pegA
+    moveBottomHalfToB = hanoi4 bottomHalf pegD pegB pegC pegA
+    moveTopHalfToB = hanoi4 topHalf pegC pegB pegD pegA
+
+    topHalf = quot allButOne 2
+    bottomHalf = allButOne - topHalf
+    allButOne = numberOfDisks - 1
