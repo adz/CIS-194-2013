@@ -11,9 +11,10 @@ hanoi 0 _ _ _ = []
 hanoi numberOfDisks pegA pegB pegC =
   moveAllButOneFromAtoCUsingB ++ moveTopFromAToB ++ moveAllButOneFromCtoBUsingA
   where
-    moveAllButOneFromAtoCUsingB = hanoi (numberOfDisks - 1) pegA pegC pegB
+    moveAllButOneFromAtoCUsingB = hanoiAllButOne pegA pegC pegB
     moveTopFromAToB = [(pegA, pegB)]
-    moveAllButOneFromCtoBUsingA = hanoi (numberOfDisks - 1) pegC pegB pegA
+    moveAllButOneFromCtoBUsingA = hanoiAllButOne pegC pegB pegA
+    hanoiAllButOne = hanoi (numberOfDisks - 1)
 
 hanoi4 :: Integer -> Peg -> Peg -> Peg -> Peg -> [Move]
 hanoi4 0 _ _ _ _ = []
