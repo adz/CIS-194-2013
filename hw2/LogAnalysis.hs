@@ -4,15 +4,6 @@ module LogAnalysis where
 import Log
 
 parseMessage :: String -> LogMessage
-{-parseMessage "E 2 562 help help"-}
-  {-== LogMessage (Error 2) 562 "help help"-}
-{-parseMessage "I 29 la la la"-}
-  {-== LogMessage Info 29 "la la la"-}
-{-parseMessage "This is not in the right format"-}
-  {-== Unknown "This is not in the right format"-}
--- Info /warning / error-ing
--- time
--- string
 parseMessage line =
   case typeCode of
     "E" -> parseDetails (Error (read (head rest))) (tail rest)
@@ -35,4 +26,44 @@ parseDetails messageType tokens =
 
 parse :: String -> [LogMessage]
 parse str = map parseMessage $ lines str
+
+
+insert :: LogMessage -> MessageTree -> MessageTree
+insert (Unknown _) tree = tree
+insert logMessage tree =
+  case tree of
+    Leaf -> Node Leaf logMessage Leaf
+    Node leftTree otherLogMessage rightTree ->
+       case compare (getTimeStamp logMessage) (getTimeStamp otherLogMessage) of
+         LT -> Node (insert logMessage leftTree) otherLogMessage rightTree
+         _ -> Node leftTree otherLogMessage (insert logMessage rightTree)
+
+getTimeStamp :: LogMessage -> TimeStamp
+getTimeStamp (LogMessage _ timeStamp _) = timeStamp
+getTimeStamp (Unknown _) = error "No time stamp for unknown logs"
+
+build :: [LogMessage] -> MessageTree
+build = foldr insert Leaf
+
+inOrder :: MessageTree -> [LogMessage]
+inOrder tree =
+  case tree of
+    (Leaf) -> []
+    (Node left logMessage right) -> inOrder left ++ [logMessage] ++ inOrder right
+
+whatWentWrong :: [LogMessage] -> [String]
+whatWentWrong logMessages = extractMessages importantErrors
+  where
+    extractMessages = map extractMessage
+    importantErrors = filter isImportantError $ inOrder (build logMessages)
+    isImportantError (LogMessage (Error severity) _ _) = severity >= 50
+    isImportantError _ = False
+
+extractMessage :: LogMessage -> String
+extractMessage (LogMessage _ _ msg) = msg
+extractMessage (Unknown msg) = msg
+
+
+
+
 
