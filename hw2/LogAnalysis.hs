@@ -54,10 +54,12 @@ inOrder tree =
 whatWentWrong :: [LogMessage] -> [String]
 whatWentWrong logMessages = extractMessages importantErrors
   where
-    extractMessages = map extractMessage
     importantErrors = filter isImportantError $ inOrder (build logMessages)
     isImportantError (LogMessage (Error severity) _ _) = severity >= 50
     isImportantError _ = False
+
+extractMessages :: [LogMessage] -> [String]
+extractMessages = map extractMessage
 
 extractMessage :: LogMessage -> String
 extractMessage (LogMessage _ _ msg) = msg
