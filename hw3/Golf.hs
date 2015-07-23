@@ -52,3 +52,12 @@ m :: Integer -> Integer -> Integer -> [Integer]
 m a b c = [b | b > a && b > c]
 
 
+
+-- Ex3 Histogram
+{-histogram :: [Integer] -> String-}
+-- so far... this one converts to counts
+histogram :: [Integer] -> [Int]
+histogram xs = map (\n -> c n xs) [0..9]
+
+c :: Integer -> [Integer] -> Int
+c n = length . filter (n==)
