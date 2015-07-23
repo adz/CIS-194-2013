@@ -40,3 +40,15 @@ indexes cur inc tot
   | cur + inc < tot = cur + inc : indexes (cur + inc + 1) inc tot
   | otherwise = []
 
+
+
+
+-- Ex2 Local Maxima
+localMaxima :: [Integer] -> [Integer]
+localMaxima l = concat $ zipWith3 m l (drop 1 l) (drop 2 l)
+
+-- is b a local maxima?
+m :: Integer -> Integer -> Integer -> [Integer]
+m a b c = [b | b > a && b > c]
+
+
