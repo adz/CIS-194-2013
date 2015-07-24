@@ -1,3 +1,5 @@
+import Data.List
+
 -- First go:
 {-skips :: [a] -> [[a]]-}
 {-skips xs = take (length xs) $ gen 0 xs-}
@@ -56,8 +58,21 @@ m a b c = [b | b > a && b > c]
 -- Ex3 Histogram
 {-histogram :: [Integer] -> String-}
 -- so far... this one converts to counts
-histogram :: [Integer] -> [Int]
-histogram xs = map (\n -> c n xs) [0..9]
+histogram :: [Integer] -> String
+histogram xs = intercalate "\n" $ graph ++ [key]
+  where graph = map (`mapLine` counts) (maxDown counts)
+        key = "==========\n0123456789"
+        counts = map (`count` xs) [0..9]
 
-c :: Integer -> [Integer] -> Int
-c n = length . filter (n==)
+maxDown :: [Int] -> [Int]
+maxDown counts' = reverse [1 .. maximum counts']
+
+mapLine :: Int -> [Int] -> String
+mapLine line = map (toStar line)
+
+toStar :: Int -> Int -> Char
+toStar line count' = if count' >= line then '*' else ' '
+
+count :: Integer -> [Integer] -> Int
+count n = length . filter (n==)
+
